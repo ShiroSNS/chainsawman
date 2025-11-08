@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chainsaw Man by SHiro...</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #000, #333, #666, #fff);
+      color: rgb(238, 238, 238);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* 🎵 Play/Pause Button */
+    #play-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      font-size: 1em;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+
+    #play-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* 🔥 Logo Header */
+    .logo-header {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 0 40px;
+      background: transparent;
+      position: relative;
+      z-index: 10;
+    }
+
+    .main-logo {
+      width: 40%;
+      max-width: 600px;
+      height: auto;
+      object-fit: contain;
+      opacity: 0.95;
+      mix-blend-mode: screen; /* Makes white/bright parts merge into background */
+      filter: drop-shadow(0 0 20px rgba(249, 0, 0, 0.4)); /* Soft glow around text */
+      transition: opacity 0.5s ease;
+    }
+
+    /* Hover disabled */
+    .main-logo:hover {
+      transform: none;
+      filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.4));
+    }
+
+    /* 🧱 Sections */
+    .section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 10%;
+      gap: 40px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .section img {
+      width: 50%;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      transition: transform 0.4s ease;
+    }
+
+    .text-box {
+      width: 45%;
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      transition: transform 0.5s ease, width 0.5s ease;
+    }
+
+    .text-box:hover {
+      transform: scale(1.05);
+    }
+
+    .section:hover img {
+      transform: scale(0.9);
+    }
+
+    .text-box h2 {
+      margin-bottom: 15px;
+      color: #ff4444;
+      text-shadow: 0 0 10px rgba(255,70,70,0.5);
+    }
+
+    .text-box p {
+      line-height: 1.7;
+      font-size: 1.1em;
+    }
+
+    /* 🖼️ Image Grid (with text below each image) */
+    .image-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 80px;
+      padding: 100px 10%;
+    }
+
+    .image-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 80%;
+    }
+
+    .linked-img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(128, 6, 6, 0.9);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .linked-img:hover {
+      transform: scale(1.03);
+    }
+
+    .mini-text-box {
+      background: rgba(255,255,255,0.08);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 90%;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .mini-text-box:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 1em;
+      color: #aaa;
+    }
+
+    @media (max-width: 900px) {
+      .section {
+        flex-direction: column;
+      }
+      .section:nth-child(even) {
+        flex-direction: column;
+      }
+      .section img,
+      .text-box {
+        width: 100%;
+      }
+      .image-row {
+        width: 100%;
+      }
+      .main-logo {
+        width: 70%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 Play/Pause Button -->
+  <button id="play-btn">⏸ Pause</button>
+
+  <!-- 🎵 Background Audio -->
+  <audio id="bg-audio" src="music/Untitled video - Made with Clipchamp.m4a" loop></audio>
+
+  <!-- 🔥 Top Logo -->
+  <header class="logo-header">
+    <img src="Photos for website/logo.png" alt="Chainsaw Man Logo" class="main-logo">
+  </header>
+
+  <!-- 🩸 Section 1 -->
+  <section class="section">
+    <img src="Photos for website/Chainsaw Man.jpg" alt="Chainsaw Man Image 1">
+    <div class="text-box">
+      <h2>CHAINSAW MAN...</h2>
+      <p>Chainsaw Man is a brutal yet heartfelt journey of survival and humanity.
+         Denji, a poor devil hunter, merges with his pet devil Pochita to become Chainsaw Man after being betrayed and killed.
+         He joins the Public Safety Bureau, fighting devils alongside allies like Power and Aki.
+         The Anime Series captures the raw emotion and intense action of the manga, bringing Denji's harrowing journey to life.</p>
+    </div>
+  </section>
+
+  <!-- 🩸 Section 2 -->
+  <section class="section">
+    <img src="Photos for website/REZE.jpg" alt="Chainsaw Man Image 2">
+    <div class="text-box">
+      <h2>REZE Arc...</h2>
+      <p>Denji meets a mysterious girl named Reze, and their bond grows unexpectedly deep.
+         The arc blends romance, suspense, and intense action in a fast-paced storyline.
+         Reze’s character brings emotional complexity and challenges Denji’s understanding of love.</p>
+    </div>
+  </section>
+
+  <!-- 🎥 Video Section -->
+  <section class="section">
+    <video autoplay controls src="Photos for website/Untitled video - Made with Clipchamp.mp4" style="width:60%; border-radius:12px;"></video>
+    <div class="text-box">
+      <h2>Chainsaw Man - Just a Taste</h2>
+      <p>“You’ve seen blood. Now meet the blade.”</p>
+    </div>
+  </section>
+
+  <!-- 🧱 Fixed Grid Layout -->
+  <div class="image-grid">
+
+    <div class="image-row">
+      <a href="https://hianime.to/chainsaw-man-17406?ref=search" target="_blank">
+        <img src="Photos for website/Trends International Chainsaw Man - Key Art Unframed Wall Poster Print Clear Push Pins Bundle 22_375_ x 34_.jpg" alt="Grid Image 2" class="linked-img">
+      </a>
+      <div class="mini-text-box">
+        <h3>Watch Chainsaw Man Series</h3>
+        <p>Click the image above to watch the full Chainsaw Man series on HiAnime.</p>
+      </div>
+    </div>
+
+    <div class="image-row">
+      <a href="https://hianime.to/chainsaw-man-the-movie-reze-arc-19721?ref=search" target="_blank">
+        <img src="Photos for website/REZE ARC OFFICIAL.jpg" alt="Grid Image 3" class="linked-img">
+      </a>
+      <div class="mini-text-box">
+        <h4>Watch Reze Arc Movie</h4>
+        <p>Click the image above to explore the Reze Arc — an emotional masterpiece of Chainsaw Man.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 🩸 Final Section -->
+  <section class="section">
+    <img src="Photos for website/୨୧⋆ ˚.jpg" alt="Chainsaw Man Image 5">
+    <div class="text-box">
+      <h4>Thanks For Visiting</h4>
+      <p>Thanks for visiting our website.
+         If you want to know more about Chainsaw Man, you can watch the anime on HiAnime by clicking the images above.</p>
+    </div>
+  </section>
+
+  <footer>© 2025 Chainsaw Man Fan Showcase | Made by SHiroSNS...</footer>
+
+  <!-- ✨ Scroll Animation + Play/Pause Script -->
+  <script>
+    // Reveal Animation
+    const sections = document.querySelectorAll('.section');
+    const revealSections = () => {
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) sec.classList.add('visible');
+      });
+    };
+    window.addEventListener('scroll', revealSections);
+    revealSections();
+
+    // Play/Pause Audio Script
+    const audio = document.getElementById('bg-audio');
+    const playBtn = document.getElementById('play-btn');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const tryPlay = () => {
+        audio.play().then(() => {
+          playBtn.textContent = '⏸ Pause';
+        }).catch(() => {
+          playBtn.textContent = '▶️ Play';
+        });
+        document.removeEventListener('click', tryPlay);
+      };
+      document.addEventListener('click', tryPlay);
+    });
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = '⏸ Pause';
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶️ Play';
+      }
+    });
+  </script>
+
+</body>
+</html>
